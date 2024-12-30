@@ -1,0 +1,15 @@
+CREATE TABLE UserQueries (
+    QueryId INT PRIMARY KEY IDENTITY(1,1), 
+    SessionId UNIQUEIDENTIFIER NOT NULL, 
+    Question NVARCHAR(1000) NOT NULL, 
+    Timestamp DATETIME DEFAULT GETDATE(),
+    SessionExpiration DATETIME DEFAULT DATEADD(MINUTE, 15, GETDATE())
+);
+
+CREATE TABLE ChatbotResponses (
+    ResponseId INT PRIMARY KEY IDENTITY(1,1),
+    QueryId INT NOT NULL,
+    Response NVARCHAR(1000) NOT NULL,
+    Timestamp DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (QueryId) REFERENCES UserQueries(QueryId)
+);
